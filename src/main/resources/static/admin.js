@@ -48,6 +48,7 @@ function getAllUsers () {
 // Вызов функции
 getAllUsers();
 
+
 //------------- Добавление нового юзера -------------//
 
 //Форма добавления юзера
@@ -69,14 +70,14 @@ function getRolesFromAddUserForm() {
     let rolesToAdd = [];
     if (roles.includes("1")) {
         let role1 = {
-            id: 1,
+            id: 2,
             name: "Admin"
         }
         rolesToAdd.push(role1);
     }
     if (roles.includes("2")) {
         let role2 = {
-            id: 2,
+            id: 1,
             name: "User"
         }
         rolesToAdd.push(role2);
@@ -102,9 +103,10 @@ addUserForm.addEventListener("submit", (e) => {
     })
         .then(() => {
             usersTableNavLink.click();
-            location.reload();
+            getAllUsers();
         });
 })
+usersTableNavLink.addEventListener('click',getAllUsers());
 
 //------------- Удаление и изменение юзеров -------------//
 
@@ -150,14 +152,14 @@ function getRolesFromEditUserForm() {
     let rolesToEdit = [];
     if (roles.includes("1")) {
         let role1 = {
-            id: 1,
+            id: 2,
             name: "Admin"
         }
         rolesToEdit.push(role1);
     }
     if (roles.includes("2")) {
         let role2 = {
-            id: 2,
+            id: 1,
             name: "User"
         }
         rolesToEdit.push(role2);
@@ -213,10 +215,13 @@ allUsersTable.addEventListener("click", e => {
             fetch(`${requestURL}/${currentUserId}`, {
                 method: 'DELETE',
             })
-                .then(res => res.json());
-            modalDeleteExitBtn.click();
-            getAllUsers();
-            location.reload();
+                .then(res =>{
+                    console.log(res)
+                    getAllUsers();
+                })
+
+           modalDeleteExitBtn.click();
+
         })
     }
 
@@ -276,10 +281,11 @@ allUsersTable.addEventListener("click", e => {
                         },
                 body: JSON.stringify(user)
             })
-                .then(res => console.log(res));
+                .then(res =>{console.log(res)
+                getAllUsers()})
+
             modalEditExitBtn.click();
-            getAllUsers();
-            location.reload();
+
         })
     }
 })
@@ -314,10 +320,13 @@ let removeSelectedRolesFromDeleteDoc = () => {
 modalDeleteExitBtn.addEventListener("click", e => {
     e.preventDefault();
     removeSelectedRolesFromDeleteDoc();
+
 })
 modalDeleteCloseBtn.addEventListener("click", e => {
     e.preventDefault();
+
     removeSelectedRolesFromDeleteDoc();
+
 })
 
 
